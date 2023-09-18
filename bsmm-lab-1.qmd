@@ -1,8 +1,8 @@
 ---
 title: "BSMM-lab-1"
 subtitle: "BSMM 8740 Fall 2023"
-author: "Add your name here"
-date: "Add the date here"
+author: "Anubhuti Talwar"
+date: "09-22-2023"
 format: html
 editor: visual
 self-contained: true
@@ -15,6 +15,7 @@ Load packages and data:
 ```{r load-pkg-data}
 #| message: false
 library(Lahman)
+
 ```
 
 ## Exercises
@@ -22,16 +23,38 @@ library(Lahman)
 ### Exercise 1
 
 ```{r glimpse-data}
-dplyr::glimpse(Teams)
+dplyr::glimpse(Teams)  # describes Teams dataset in R #
 ```
 
-The `Teams` dataset has \_\_\_ observations and \_\_\_ variables.
+The `Teams` dataset has 3015 observations and 48 variables.
 
 ### Exercise 2
 
-...
+```{r}
+
+library(dplyr) # Install dplyr package #
+
+mets <- Teams %>%
+  dplyr::filter(teamID == "NYN") # Filter Teams data for New York based on TeamID #
+
+my_mets <- mets %>%
+  dplyr::filter(yearID >= 2004 & yearID <= 2012) # Filter Teams data for New York based on year #
+
+ my_mets %>% # Select columns - Year, W and L Team's performance  #
+  dplyr::select(yearID , W, L) 
+
+```
 
 ### Exercise 3
+
+```{r}
+
+mets_ben <- Teams |>
+  dplyr::select(_, _, _, _, _, _) |>
+  dplyr::filter(_ == "NYN" & _ %in% 2004:2012)
+mets_ben
+
+```
 
 ...
 
