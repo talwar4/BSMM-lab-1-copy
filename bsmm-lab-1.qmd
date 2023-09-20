@@ -50,9 +50,9 @@ my_mets <- mets %>%
 ```{r}
 
 mets_ben <- Teams |>
-  dplyr::select(yearID, teamID, G, W, L, RA, RS = R) |>
-  dplyr::filter(teamID == "NYN" & yearID %in% 2004:2012)
-mets_ben
+  dplyr::select(yearID, teamID, G, W, L, RA, RS = R) |> 
+  dplyr::filter(teamID == "NYN" & yearID %in% 2004:2012) # code to select and filter data for New York Mets from 2004 to 2012 #
+mets_ben  
 
 ```
 
@@ -65,11 +65,11 @@ mets_ben
 ```{r}
 
 mets_ben <- mets_ben %>%
-  dplyr::mutate(WPct = 1 / (1 + (RA / RS) * 2))
+  dplyr::mutate(WPct = 1 / (1 + (RA / RS) * 2)) # calculate winning percentage #
 mets_ben
 
 mets_ben <- mets_ben |>
-  dplyr::mutate(W_hat = WPct*G)
+  dplyr::mutate(W_hat = WPct*G) # Add a new col. W_hat by multiplying winning percentage with number of games #
 mets_ben
 
 ```
@@ -81,13 +81,13 @@ mets_ben
 library(dplyr)
 
 mets_ben <- mets_ben %>%
-  mutate(Performance = ifelse(W > W_hat, "Better", "Worse"))
+  mutate(Performance = ifelse(W > W_hat, "Better", "Worse")) # Code to assess team performance and categorise it as "Better" or "worse" based on wins #
 
 summary_stats <- mets_ben %>%
   group_by(Performance) %>%
   summarize(count = n())
 
-summary_stats
+summary_stats # Generate summary statistics for categorized performance #
 ```
 
 ...
@@ -98,7 +98,7 @@ summary_stats
 
 ```{r}
 
-best_seasons <- dplyr::arrange(mets_ben, desc(W)) 
+best_seasons <- dplyr::arrange(mets_ben, desc(W)) # Sorting mets_ben in descending order of wins to identify best seasons #
 best_seasons
 
 ```
@@ -109,8 +109,8 @@ best_seasons
 
 library(dplyr)
 mets_ben <- mets_ben %>%
-  mutate(Diff = W - W_hat) %>%
-  arrange(desc(Diff))
+  mutate(Diff = W - W_hat) %>% # Calculate the difference between Actual and Expected wins #
+  arrange(desc(Diff)) # sort the mets_ben difference in descending order #
 
 View(mets_ben)
 
@@ -128,7 +128,7 @@ mets_ben |>
     total_W = sum(W), 
     total_L = sum(L), 
     total_WPct = mean(WPct), 
-    sum_resid = sum(Diff)
+    sum_resid = sum(Diff) # calculate summary statistics for mets-ben on diff. criterias #
   )
 ```
 
@@ -162,7 +162,7 @@ mets_ben <- mets_ben %>%
         )
       )
     )
-  )
+  ) # Used mutate function from dplyr package in R to add a new col to mets_ben #
 mets_ben
 ```
 
@@ -175,7 +175,7 @@ library(dplyr)
 
 manager_summary_stats <- mets_ben %>%   
 group_by(gm) %>%   
-summarize(num_years = n(),total_W = sum(W), total_L = sum(L),     total_WPct = mean(WPct),sum_resid = mean(Diff) )
+summarize(num_years = n(),total_W = sum(W), total_L = sum(L),     total_WPct = mean(WPct),sum_resid = mean(Diff) ) # Generate summary statistics for General Manager's performance in 'manager_summary_stats" using number of years, total wins, total losses etc. #
 
 manager_summary_stats
 
