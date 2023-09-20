@@ -76,17 +76,61 @@ mets_ben
 
 ### Exercise 5
 
+```{r}
+
+library(dplyr)
+
+mets_ben <- mets_ben %>%
+  mutate(Performance = ifelse(W > W_hat, "Better", "Worse"))
+
+summary_stats <- mets_ben %>%
+  group_by(Performance) %>%
+  summarize(count = n())
+
+summary_stats
+```
+
 ...
 
 ### Exercise 6
 
 ...
 
+```{r}
+
+best_seasons <- dplyr::arrange(mets_ben, desc(W)) 
+best_seasons
+
+```
+
 ### Exercise 7
+
+```{r}
+
+library(dplyr)
+mets_ben <- mets_ben %>%
+  mutate(Diff = W - W_hat) %>%
+  arrange(desc(Diff))
+
+View(mets_ben)
+
+```
 
 ...
 
 ### Exercise 8
+
+```{r}
+
+mets_ben |>
+  dplyr::summarize(
+    num_years = n(), 
+    total_W = sum(W), 
+    total_L = sum(L), 
+    total_WPct = mean(WPct), 
+    sum_resid = sum(Diff)
+  )
+```
 
 ...
 
@@ -94,6 +138,45 @@ mets_ben
 
 ...
 
+```{r}
+
+# insufficient data so didn't attempt the question as specified by professor #
+```
+
 ### Exercise 10
 
 ...
+
+```{r}
+
+library(dplyr)
+mets_ben <- mets_ben %>% 
+  dplyr::mutate(
+    gm = ifelse(
+      yearID <= 2004, "Jim Duquette",
+      ifelse(
+        yearID >= 2005 & yearID <= 2010, "Omar Minaya",
+        ifelse(
+          yearID >= 2011 & yearID <= 2012, "Sandy Alderson",
+          NA
+        )
+      )
+    )
+  )
+mets_ben
+```
+
+### Exercise 11
+
+...
+
+```{r}
+library(dplyr)
+
+manager_summary_stats <- mets_ben %>%   
+group_by(gm) %>%   
+summarize(num_years = n(),total_W = sum(W), total_L = sum(L),     total_WPct = mean(WPct),sum_resid = mean(Diff) )
+
+manager_summary_stats
+
+```
